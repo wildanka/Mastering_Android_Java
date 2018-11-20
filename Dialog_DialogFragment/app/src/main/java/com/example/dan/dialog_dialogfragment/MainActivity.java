@@ -3,14 +3,26 @@ package com.example.dan.dialog_dialogfragment;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.example.dan.dialog_dialogfragment.databinding.ActivityMainBinding;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements CustomDialog.OnInputListener{
     ActivityMainBinding binding;
+    private static final String TAG = "MainActivity";
+    public String mInput;
+
+    @Override
+    public void sendInput(String input){
+        Log.d(TAG, "sendInput: got the input: "+input);
+
+//        binding.mainContent.tvDialogResult.setText(input);
+        mInput = input;
+        setInputToTextView();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,4 +60,9 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    private void setInputToTextView(){
+        binding.mainContent.tvDialogResult.setText(mInput);
+    }
+
 }
