@@ -1,5 +1,6 @@
 package com.example.dan.dialog_dialogfragment;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -30,6 +31,8 @@ public class MainActivity extends AppCompatActivity implements CustomDialog.OnIn
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         setSupportActionBar(binding.toolbar);
 
+        Intent in = new Intent(MainActivity.this, SecondActivity.class);
+        startActivity(in);
         binding.mainContent.btnOpenDialog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -12,14 +12,14 @@ import android.view.ViewGroup;
 
 import com.example.dan.dialog_dialogfragment.databinding.DialogLayoutBinding;
 
-public class CustomDialog extends DialogFragment {
+public class CustomDialogForFragment extends DialogFragment {
     private static final String TAG = "CustomDialog";
     DialogLayoutBinding binding;
 
-    public interface OnInputListener{
+    public interface OnInputSelected{
         void sendInput(String input);
     }
-    public OnInputListener mOnInputListener;
+    public OnInputSelected mOnInputSelected;
 
 
     @Nullable
@@ -43,7 +43,10 @@ public class CustomDialog extends DialogFragment {
                 String inputPrice = binding.etPrice.getText().toString();
                 if (!inputPrice.equals("")){
                     //Easiest Way, just set the value
-                    ((MainActivity)getActivity()).binding.mainContent.tvDialogResult.setText(inputPrice);
+                    FragmentTest fragment = (FragmentTest) getActivity().getFragmentManager().findFragmentByTag("FragmentTest");
+                    fragment.binding.tvDialogResult.setText(inputPrice);
+//                    inputPrice = binding.etPrice.getText().toString();
+//                    mOnInputSelected.sendInput(inputPrice);
                 }
                 getDialog().dismiss();
             }
@@ -56,7 +59,7 @@ public class CustomDialog extends DialogFragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         try{
-            mOnInputListener = (OnInputListener) getActivity();
+            mOnInputSelected = (OnInputSelected) getActivity();
         }catch(ClassCastException e){
             Log.e(TAG,"onAttach: ClassCastException: "+e.getMessage());
         }
