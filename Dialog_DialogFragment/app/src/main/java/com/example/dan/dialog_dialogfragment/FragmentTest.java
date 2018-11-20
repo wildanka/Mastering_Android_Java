@@ -22,9 +22,9 @@ public class FragmentTest extends Fragment implements CustomDialogForFragment.On
         Log.d(TAG, "sendInput: got the input: "+input);
         Log.d(TAG, "sendInput: found incoming input: " + input);
 
-        binding.tvDialogResult.setText(input);
-//        mInput = input;
-//        setInputToTextView();
+//        binding.tvDialogResult.setText(input);
+        mInput = input;
+        setInputToTextView();
     }
 
     @Nullable

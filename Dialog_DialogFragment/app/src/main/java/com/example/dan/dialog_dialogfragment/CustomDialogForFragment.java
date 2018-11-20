@@ -40,13 +40,13 @@ public class CustomDialogForFragment extends DialogFragment {
             public void onClick(View view) {
                 Log.d(TAG,"onClick : Capturing Input");
 
-                String inputPrice = binding.etPrice.getText().toString();
+//                String inputPrice = binding.etPrice.getText().toString();
+                String inputPrice = "HEHEHE";
                 if (!inputPrice.equals("")){
                     //Easiest Way, just set the value
-                    FragmentTest fragment = (FragmentTest) getActivity().getFragmentManager().findFragmentByTag("FragmentTest");
-                    fragment.binding.tvDialogResult.setText(inputPrice);
-//                    inputPrice = binding.etPrice.getText().toString();
-//                    mOnInputSelected.sendInput(inputPrice);
+//                    FragmentTest fragment = (FragmentTest) getActivity().getFragmentManager().findFragmentByTag("FragmentTest");
+//                    fragment.binding.tvDialogResult.setText(inputPrice);
+                    mOnInputSelected.sendInput("TEST");
                 }
                 getDialog().dismiss();
             }
@@ -59,7 +59,7 @@ public class CustomDialogForFragment extends DialogFragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         try{
-            mOnInputSelected = (OnInputSelected) getActivity();
+            mOnInputSelected = (OnInputSelected) getTargetFragment();
         }catch(ClassCastException e){
             Log.e(TAG,"onAttach: ClassCastException: "+e.getMessage());
         }

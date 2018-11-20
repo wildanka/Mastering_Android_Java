@@ -43,7 +43,10 @@ public class CustomDialog extends DialogFragment {
                 String inputPrice = binding.etPrice.getText().toString();
                 if (!inputPrice.equals("")){
                     //Easiest Way, just set the value
-                    ((MainActivity)getActivity()).binding.mainContent.tvDialogResult.setText(inputPrice);
+//                    ((MainActivity)getActivity()).binding.mainContent.tvDialogResult.setText(inputPrice);
+                    //the Good Way
+                    mOnInputListener.sendInput(inputPrice);
+
                 }
                 getDialog().dismiss();
             }
