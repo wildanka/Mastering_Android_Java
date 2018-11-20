@@ -35,7 +35,7 @@ public class MainActivityFragment extends Fragment {
         Button btnShowDatePicker = rootView.findViewById(R.id.btn_date_picker);
         Button btnShowTimePicker = rootView.findViewById(R.id.btn_time_picker);
         final EditText etDate = rootView.findViewById(R.id.et_date);
-        final TextView tvDate = rootView.findViewById(R.id.tvDate);
+        TextView tvDate = rootView.findViewById(R.id.tvDate);
 
         //now calendar
         mCurrentDate = Calendar.getInstance();
