@@ -1,10 +1,10 @@
 package com.example.dan.dialog_dialogfragment;
 
-import android.app.DialogFragment;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,13 +40,13 @@ public class CustomDialogForFragment extends DialogFragment {
             public void onClick(View view) {
                 Log.d(TAG,"onClick : Capturing Input");
 
-//                String inputPrice = binding.etPrice.getText().toString();
-                String inputPrice = "HEHEHE";
+                String inputPrice = binding.etPrice.getText().toString();
+//                String inputPrice = "HEHEHE";
                 if (!inputPrice.equals("")){
                     //Easiest Way, just set the value
 //                    FragmentTest fragment = (FragmentTest) getActivity().getFragmentManager().findFragmentByTag("FragmentTest");
 //                    fragment.binding.tvDialogResult.setText(inputPrice);
-                    mOnInputSelected.sendInput("TEST");
+                    mOnInputSelected.sendInput(inputPrice);
                 }
                 getDialog().dismiss();
             }
