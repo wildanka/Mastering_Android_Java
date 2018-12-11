@@ -8,14 +8,9 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -23,7 +18,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
@@ -39,9 +33,11 @@ public class MainActivity extends AppCompatActivity {
     private Button btnUpload;
     private Button btnUploadBase64;
     private ImageView ivThumbnails;
+    File storageDir;
+    File outputPhotoFile; //the Image Files
+    Uri photoURI;
     String mCurrentPhotoPath;
     String part_image;
-    ProgressDialog progressDialog;
     private static final int REQUEST_TAKE_PHOTO = 188;
     private static final int REQUEST_GALLERY = 189;
 
@@ -58,11 +54,12 @@ public class MainActivity extends AppCompatActivity {
             }
             // Continue only if the File was successfully created
             if (photoFile != null) {
-                Uri photoURI = getUriForFile(this,
+                photoURI = getUriForFile(this,
                         BuildConfig.APPLICATION_ID+".provider",
                         photoFile);
                 System.out.println(photoURI);
-                System.out.println(mCurrentPhotoPath);
+                System.out.println("mCurrentPhotoPath : "+mCurrentPhotoPath);
+                outputPhotoFile = new File(mCurrentPhotoPath);
                 File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
                 System.out.println("storageDir : "+storageDir.getAbsolutePath());
 
@@ -71,17 +68,18 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
     private File createImageFile() throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "KameraKowaiJava" + timeStamp + "_";
-        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File buatan = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
         System.out.println("STORAGEDIR : "+storageDir.getAbsolutePath());
         System.out.println("BUATAN : "+buatan.getAbsolutePath());
 
         File image = File.createTempFile(
-                imageFileName,  /* prefix */
+                "KameraKowai",  /* prefix */
                 ".jpg",         /* suffix */
                 storageDir      /* directory */
         );
@@ -90,74 +88,6 @@ public class MainActivity extends AppCompatActivity {
         mCurrentPhotoPath = image.getAbsolutePath();
         return image;
     }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(requestCode == CAMERA_PERMISSION_REQUEST){
-            //we are hearing from the camera
-            if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                dispatchTakePictureIntent();
-            }else{
-                Toast.makeText(this, "Unable to invoke camera without permission",Toast.LENGTH_SHORT).show();
-
-            }
-        }
-    }
-
-    private void invokeCamera(){
-        //path to the images directory
-        File imagePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-
-        //create imagefile name
-        String picture = createPictureName();
-
-        //create an imagefile at this path.
-        File imageFile = new File(imagePath, picture);
-
-        //convert file to URI
-        Uri pictureUri = getUriForFile(MainActivity.this, BuildConfig.APPLICATION_ID+".provider", imageFile);
-//        Uri pictureUri = Uri.fromFile(imageFile);
-
-        //create the intent
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, pictureUri);
-        startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
-
-//        Uri uri = FileProvider.getUriForFile(this,getApplicationContext().getPackageName()+".provider", picFile);
-        //where do I want to save the image?
-//        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-        //passPermission to the camera
-//        takePictureIntent.setFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-
-//        // Ensure that there's a camera activity to handle the intent
-//        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-//            // Create the File where the photo should go
-//            File photoFile = null;
-//            try {
-//                photoFile = createImageFile();
-//            } catch (IOException ex) {
-//                // Error occurred while creating the File
-//                Toast.makeText(getApplicationContext(), "Error while saving picture.", Toast.LENGTH_LONG).show();
-//                ex.printStackTrace();
-//            }
-//            // Continue only if the File was successfully created
-//            if (photoFile != null) {
-//                //                Uri photoURI = FileProvider.getUriForFile(this,
-//                //                        "com.example.dan.kamerakowaijava.provider",
-//                //                        photoFile);
-//                //                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-//                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-//            }
-//        }
-    }
-
-    private String createPictureName() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
-        String timestamp = sdf.format(new Date());
-        return "KameraKowaiJava"+timestamp+".jpg";
-    }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -201,10 +131,40 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
             if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
-//                System.out.println("REQUEST IMAGE CAPTURE WORKS");
-//                Bundle extras = data.getExtras();
-//                Bitmap imageBitmap = (Bitmap) extras.get("data");
-//                ivThumbnails.setImageBitmap(imageBitmap);
+                // Check if the result includes a thumbnail Bitmap
+                if (data != null) {
+                    if (data.hasExtra("data")) {
+                        System.out.println("REQUEST IMAGE CAPTURE WORKS");
+                        Bundle extras = data.getExtras();
+                        Bitmap imageBitmap = (Bitmap) extras.get("data");
+                        ivThumbnails.setImageBitmap(imageBitmap);
+                    }
+                }else {
+                    // If there is no thumbnail image data, the image
+                    // will have been stored in the target output URI.
+                    // Resize the full image to fit in our image view.
+                    int width = ivThumbnails.getWidth();
+                    int height = ivThumbnails.getHeight();
+                    BitmapFactory.Options factoryOptions = new
+                            BitmapFactory.Options();
+                    factoryOptions.inJustDecodeBounds = true;
+                    BitmapFactory.decodeFile(outputPhotoFile.getPath(),
+                            factoryOptions);
+                    int imageWidth = factoryOptions.outWidth;
+                    int imageHeight = factoryOptions.outHeight;
+
+                    // Determine how much to scale down the image
+                    int scaleFactor = Math.min(imageWidth/width,
+                            imageHeight/height);
+
+                    // Decode the image file into a Bitmap sized to fill the View
+                    factoryOptions.inJustDecodeBounds = false;
+                    factoryOptions.inSampleSize = scaleFactor;
+                    Bitmap bitmap =
+                            BitmapFactory.decodeFile(outputPhotoFile.getPath(),
+                                    factoryOptions);
+                    ivThumbnails.setImageBitmap(bitmap);
+                }
             }
             if (requestCode == REQUEST_GALLERY && resultCode == RESULT_OK) {
                 System.out.println("REQUEST GALLERY WORKS");
