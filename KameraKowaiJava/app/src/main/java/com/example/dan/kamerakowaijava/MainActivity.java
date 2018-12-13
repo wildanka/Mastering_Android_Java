@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -118,6 +119,11 @@ public class MainActivity extends AppCompatActivity {
                 Uri resultUri = result.getUri();
                 Log.d(TAG,"RESULT URI : "+resultUri);
                 Bitmap bitmap = BitmapFactory.decodeFile(resultUri.getPath(), factoryOptions);
+                //if we want to compress the image, then we can use WEBP for the light image size
+                //region compress image
+                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.WEBP,0, bos);
+                //endregion
                 ivThumbnails.setImageBitmap(bitmap);
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 Exception error = result.getError();
