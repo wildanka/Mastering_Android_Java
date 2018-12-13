@@ -1,57 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginTop="56dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".MainActivity"
     tools:showIn="@layout/activity_main">
-
-    <Button
-        android:id="@+id/btn_take_photo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:text="Take a Photo" />
-
-    <ImageView
-        android:id="@+id/iv_thumb"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/btn_take_photo"
-        android:scaleType="centerCrop"
-        android:src="@mipmap/ic_launcher" />
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <Button
-        android:id="@+id/btn_upload_1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/iv_thumb"
-        android:text="Upload with Multipart" />
+            <Button
+                android:id="@+id/btn_take_photo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:text="Take a Photo" />
 
-    <Button
-        android:id="@+id/btn_upload_2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/btn_upload_1"
-        android:text="Upload with Base64" />
+            <ImageView
+                android:id="@+id/iv_thumb"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/btn_take_photo"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/ic_launcher" />
 
-    <Button
-        android:id="@+id/btn_choose_gallery"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginEnd="8dp"
-        android:text="Choose From Gallery" />
+            <Button
+                android:id="@+id/btn_upload_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/iv_thumb"
+                android:text="Upload with Multipart" />
 
-</RelativeLayout>
+            <Button
+                android:id="@+id/btn_upload_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/btn_upload_1"
+                android:text="Upload with Base64" />
+
+            <Button
+                android:id="@+id/btn_choose_gallery"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginEnd="8dp"
+                android:text="Choose From Gallery" />
+
+            <Button
+                android:layout_below="@+id/cropImageView"
+                android:id="@+id/btnSaveCrop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="Save" />
+
+            <!-- Image Cropper fill the remaining available height -->
+            <com.theartofdev.edmodo.cropper.CropImageView
+                android:layout_below="@+id/btn_upload_2"
+                android:id="@+id/cropImageView"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"/>
+        </RelativeLayout>
+    </ScrollView>
+</LinearLayout>

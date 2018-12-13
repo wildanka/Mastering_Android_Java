@@ -49,8 +49,6 @@ public class FutureStudActivity extends AppCompatActivity {
     private void uploadFile(Uri fileUri){
         final EditText name = (EditText) findViewById(R.id.et_futureStudUri);
 
-
-
         //create Retrofit Instance
         Retrofit.Builder builder = new Retrofit.Builder()
                 .baseUrl("http://192.168.88.8:5000/")

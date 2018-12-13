@@ -13,11 +13,17 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.util.Pair;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
+
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,14 +31,18 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static android.support.v4.content.FileProvider.getUriForFile;
+import static java.security.AccessController.getContext;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = "MainActivity";
     public static final int CAMERA_PERMISSION_REQUEST = 1995;
     private Button btnCamera;
     private Button btnGallery;
     private Button btnUpload;
+    private Button btnSaveCrop;
     private Button btnUploadBase64;
     private ImageView ivThumbnails;
+    private CropImageView cropImageView;
     File storageDir;
     File outputPhotoFile; //the Image Files
     Uri photoURI;
@@ -40,6 +50,83 @@ public class MainActivity extends AppCompatActivity {
     String part_image;
     private static final int REQUEST_TAKE_PHOTO = 188;
     private static final int REQUEST_GALLERY = 189;
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        btnCamera = (Button) findViewById(R.id.btn_take_photo);
+        btnGallery = (Button) findViewById(R.id.btn_choose_gallery);
+        btnUpload = (Button) findViewById(R.id.btn_upload_1);
+        btnUploadBase64 = (Button) findViewById(R.id.btn_upload_2);
+        btnSaveCrop= (Button) findViewById(R.id.btnSaveCrop);
+        ivThumbnails = (ImageView) findViewById(R.id.iv_thumb);
+        cropImageView = (CropImageView) findViewById(R.id.cropImageView);
+
+        btnCamera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //instant
+                CropImage.activity()
+                        .setGuidelines(CropImageView.Guidelines.ON)
+                        .setCropShape(CropImageView.CropShape.OVAL)
+                        .start(MainActivity.this);
+
+            }
+        });
+
+        btnUploadBase64.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent in = new Intent(MainActivity.this, FutureStudActivity.class);
+                startActivity(in);
+            }
+        });
+
+        btnSaveCrop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bitmap cropped =  cropImageView.getCroppedImage(500, 500);
+                if (cropped != null){
+                    cropImageView.setImageBitmap(cropped);
+                }
+            }
+        });
+
+        btnGallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent galleryIntent = new Intent();
+                    galleryIntent.setType("image/*");
+                    galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(galleryIntent, "Open Gallery"), REQUEST_GALLERY);
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
+                BitmapFactory.Options factoryOptions = new BitmapFactory.Options();
+                Uri resultUri = result.getUri();
+                Log.d(TAG,"RESULT URI : "+resultUri);
+                Bitmap bitmap = BitmapFactory.decodeFile(resultUri.getPath(), factoryOptions);
+                ivThumbnails.setImageBitmap(bitmap);
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                Exception error = result.getError();
+                Log.d(TAG,"Error : "+error);
+            }
+        }
+    }
+
+    //region take Picture
 
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -60,8 +147,11 @@ public class MainActivity extends AppCompatActivity {
                 System.out.println(photoURI);
                 System.out.println("mCurrentPhotoPath : "+mCurrentPhotoPath);
                 outputPhotoFile = new File(mCurrentPhotoPath);
-                File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+                File externalStoragePublicDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+                File externalStorageDirectory = Environment.getExternalStorageDirectory();
                 System.out.println("storageDir : "+storageDir.getAbsolutePath());
+                System.out.println("externalStoragePublicDir : "+externalStoragePublicDirectory.getAbsolutePath());
+                System.out.println("externalStorageDir : "+externalStorageDirectory.getAbsolutePath());
 
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
@@ -88,104 +178,7 @@ public class MainActivity extends AppCompatActivity {
         mCurrentPhotoPath = image.getAbsolutePath();
         return image;
     }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        btnCamera = (Button) findViewById(R.id.btn_take_photo);
-        btnGallery = (Button) findViewById(R.id.btn_choose_gallery);
-        btnUpload = (Button) findViewById(R.id.btn_upload_1);
-        btnUploadBase64 = (Button) findViewById(R.id.btn_upload_2);
-        ivThumbnails = (ImageView) findViewById(R.id.iv_thumb);
-
-        btnCamera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dispatchTakePictureIntent();
-            }
-        });
-
-        btnUploadBase64.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent in = new Intent(MainActivity.this, FutureStudActivity.class);
-                startActivity(in);
-            }
-        });
-
-        btnGallery.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent galleryIntent = new Intent();
-                    galleryIntent.setType("image/*");
-                    galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(galleryIntent, "Open Gallery"), REQUEST_GALLERY);
-            }
-        });
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-            if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
-                // Check if the result includes a thumbnail Bitmap
-                if (data != null) {
-                    if (data.hasExtra("data")) {
-                        System.out.println("REQUEST IMAGE CAPTURE WORKS");
-                        Bundle extras = data.getExtras();
-                        Bitmap imageBitmap = (Bitmap) extras.get("data");
-                        ivThumbnails.setImageBitmap(imageBitmap);
-                    }
-                }else {
-                    // If there is no thumbnail image data, the image
-                    // will have been stored in the target output URI.
-                    // Resize the full image to fit in our image view.
-                    int width = ivThumbnails.getWidth();
-                    int height = ivThumbnails.getHeight();
-                    BitmapFactory.Options factoryOptions = new
-                            BitmapFactory.Options();
-                    factoryOptions.inJustDecodeBounds = true;
-                    BitmapFactory.decodeFile(outputPhotoFile.getPath(),
-                            factoryOptions);
-                    int imageWidth = factoryOptions.outWidth;
-                    int imageHeight = factoryOptions.outHeight;
-
-                    // Determine how much to scale down the image
-                    int scaleFactor = Math.min(imageWidth/width,
-                            imageHeight/height);
-
-                    // Decode the image file into a Bitmap sized to fill the View
-                    factoryOptions.inJustDecodeBounds = false;
-                    factoryOptions.inSampleSize = scaleFactor;
-                    Bitmap bitmap =
-                            BitmapFactory.decodeFile(outputPhotoFile.getPath(),
-                                    factoryOptions);
-                    ivThumbnails.setImageBitmap(bitmap);
-                }
-            }
-            if (requestCode == REQUEST_GALLERY && resultCode == RESULT_OK) {
-                System.out.println("REQUEST GALLERY WORKS");
-                Uri dataImageUri = data.getData();
-                String[] imageProjection = {MediaStore.Images.Media.DATA};
-                Cursor cursor = getContentResolver().query(dataImageUri, imageProjection, null,null,null);
-                if (cursor != null){
-                    cursor.moveToFirst();
-                    int indexImage = cursor.getColumnIndex(imageProjection[0]);
-                    part_image = cursor.getString(indexImage);
-                    System.out.println("cursor terjangkau");
-                    if(part_image != null)
-                    {
-                        System.out.println("partImage terjangkau");
-                        File image = new File(part_image);
-                        ivThumbnails.setImageBitmap(BitmapFactory.decodeFile(image.getAbsolutePath()));
-                    }
-                }
-            }
-    }
-
+    //endregion take Picture
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
