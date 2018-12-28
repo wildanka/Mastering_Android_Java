@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.fragment.FragmentThree">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:layout_centerInParent="true"
+        android:id="@+id/fragment_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Fragment 3" />
+
+    <TextView
+        android:layout_marginTop="@dimen/fab_margin"
+        android:layout_below="@+id/fragment_title"
+        android:id="@+id/fragment_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello I am the Third (1) Fragment " />
+
+</RelativeLayout>
