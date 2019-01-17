@@ -2,10 +2,8 @@ package com.example.dan.fragmentviewpagercommunication;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -20,12 +18,11 @@ import com.example.dan.fragmentviewpagercommunication.view.fragment.FragmentFour
 import com.example.dan.fragmentviewpagercommunication.view.fragment.FragmentOne;
 import com.example.dan.fragmentviewpagercommunication.view.fragment.FragmentThree;
 import com.example.dan.fragmentviewpagercommunication.view.fragment.FragmentTwo;
-import com.example.dan.fragmentviewpagercommunication.view.interactor.ICommunicator;
 import com.example.dan.fragmentviewpagercommunication.view.interactor.ITest;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements ICommunicator{
+public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private FSAdapter adapter;
     private TabLayout tabLayout;
@@ -205,13 +202,4 @@ public class MainActivity extends AppCompatActivity implements ICommunicator{
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void showToast(String msg) {
-
-    }
-
-    @Override
-    public void communicateToFragment2() {
-
-    }
 }

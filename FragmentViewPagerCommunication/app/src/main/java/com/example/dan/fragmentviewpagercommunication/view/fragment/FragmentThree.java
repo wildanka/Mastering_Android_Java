@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.dan.fragmentviewpagercommunication.R;
-import com.example.dan.fragmentviewpagercommunication.view.interactor.ICommunicator;
 import com.example.dan.fragmentviewpagercommunication.view.interactor.ITest;
 
 /**

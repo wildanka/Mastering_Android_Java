@@ -1,6 +1,5 @@
 package com.example.dan.fragmentviewpagercommunication.view.fragment;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -10,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.dan.fragmentviewpagercommunication.R;
-import com.example.dan.fragmentviewpagercommunication.view.interactor.ICommunicator;
 import com.example.dan.fragmentviewpagercommunication.view.interactor.ITest;
 
 /**
