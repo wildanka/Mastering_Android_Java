@@ -38,3 +38,17 @@ PopUpWindow/.idea/modules.xml
 PopUpWindow/.idea/workspace.xml
 PopUpWindow/build
 PopUpWindow/captures
+LearnForegroundService/local.properties
+LearnForegroundService/.idea/libraries
+LearnForegroundService/.idea/modules.xml
+LearnForegroundService/.idea/workspace.xml
+LearnForegroundService/build
+LearnForegroundService/.git
+LearnForegroundService/.gitignore.txt
+LearnNotificationChannels/local.properties
+LearnNotificationChannels/.idea/libraries
+LearnNotificationChannels/.idea/modules.xml
+LearnNotificationChannels/.idea/workspace.xml
+LearnNotificationChannels/build
+LearnNotificationChannels/.git
+LearnNotificationChannels/.gitignore.txt
