@@ -37,7 +37,7 @@ public class ExampleService extends Service {
 
 //        if we don't start our service in foreground, our service will be killed in about one minutes.
 //        for example, just try to comment startForeground line below and see on the running services via developer options menu in your android emulator/smartphone
-//        startForeground(1, notification);
+        startForeground(1, notification);
 
         return START_NOT_STICKY; //not sticky so this service will only create one service if there is a change or modification
     }
