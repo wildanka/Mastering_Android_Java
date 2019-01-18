@@ -12,7 +12,6 @@ import static com.wildanka.learnforegroundservice.App.CHANNEL_ID;
 
 public class ExampleService extends Service {
 
-
     @Override
     public void onCreate() {
         super.onCreate();
@@ -37,7 +36,13 @@ public class ExampleService extends Service {
 
 //        if we don't start our service in foreground, our service will be killed in about one minutes.
 //        for example, just try to comment startForeground line below and see on the running services via developer options menu in your android emulator/smartphone
-        startForeground(1, notification);
+//        startForeground(1, notification);
+
+
+///        a heavy background task
+        //well actually if we want to stop our service automatically (without calling from outside),
+        // we can use stopSelf() so the service will stop itself from working on the background
+//        stopSelf();
 
         return START_NOT_STICKY; //not sticky so this service will only create one service if there is a change or modification
     }
