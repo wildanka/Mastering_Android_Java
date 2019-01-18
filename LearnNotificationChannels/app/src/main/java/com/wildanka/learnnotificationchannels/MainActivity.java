@@ -1,6 +1,9 @@
 package com.wildanka.learnnotificationchannels;
 
 import android.app.Notification;
+import android.app.PendingIntent;
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -20,7 +23,6 @@ public class MainActivity extends AppCompatActivity {
     //we create NotifManagerCompat because it wraps a number of notification manager, and suitable for BackwardsCompatibility,
     // but cannot create notification channel, that's why we need to use different notification channels
     private NotificationManagerCompat notificationManagerCompat;
-    private NotificationCompat.Builder notification;
     private EditText etTitle;
     private EditText etMessage;
 
@@ -31,10 +33,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         notificationManagerCompat = NotificationManagerCompat.from(this);
-        notification = new NotificationCompat.Builder(this);
-        notification.setAutoCancel(true);
         etTitle = findViewById(R.id.et_title_channel_1);
         etMessage = findViewById(R.id.et_message_channel_1);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -50,13 +49,28 @@ public class MainActivity extends AppCompatActivity {
     public void sendOnChannel1(View v){
         String title = etTitle.getText().toString();
         String message = etMessage.getText().toString();
+
+        //create intent to be execute after the notification is clicked
+        Intent activityIntent = new Intent(this, MainActivity.class);
+        //because we directing the intent to the mainActivity, we don't need to use any flags yet
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, activityIntent, 0);
+
+        Intent broadcastIntent = new Intent(this, NotificationReceiver.class);
+        broadcastIntent.putExtra("toastBroadcastMessage",message);
+        PendingIntent actionIntent = PendingIntent.getBroadcast(this, 0, broadcastIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_1_ID)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle(title)
                 .setContentText(message)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                .setColor(Color.CYAN)
                 .setAutoCancel(true)
+                .setContentIntent(contentIntent)
+                .setOnlyAlertOnce(true)
+                .addAction(R.mipmap.ic_launcher, "SHOw TOAST", actionIntent)
                 .build();
         notificationManagerCompat.notify(1, notification);
     }

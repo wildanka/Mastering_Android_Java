@@ -14,13 +14,21 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:taskAffinity=""
+            android:excludeFromRecents="true">
+            <!--well actually we could choose how our notification action will be, is it going to open a new regular activity
+            or is it going to launc a special activity(which can only be seen if its started from notification)
+            @Source https://developer.android.com/training/notify-user/navigation
+            https://developer.android.com/guide/components/activities/tasks-and-back-stack
+            -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <receiver android:name=".NotificationReceiver"/>
     </application>
 
 </manifest>
