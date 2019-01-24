@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".SecondFragment">
+
+        <!-- TODO: Update blank fragment layout -->
+        <TextView
+            android:id="@+id/header_age"
+            android:layout_marginStart="32dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Age : " />
+
+        <TextView
+            android:id="@+id/tv_age_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/header_age"
+            android:text="valueAge" />
+
+        <TextView
+            android:id="@+id/header_phoneNumber"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/header_age"
+            android:text="Phone Number : " />
+
+        <EditText
+            android:id="@+id/et_phone_number"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_age_value"
+            android:layout_toEndOf="@+id/header_phoneNumber"
+            android:text="0554" />
+
+        <Button
+            android:id="@+id/btn_save_fragment_two"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/header_phoneNumber"
+            android:layout_margin="16dp" />
+    </RelativeLayout>
+</layout>
