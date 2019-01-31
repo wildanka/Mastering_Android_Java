@@ -4,22 +4,26 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
-
-    //well actually this is not a good practice, but we want it quick so here we are.
-    public static TextView resultTextView;
+    private Intent scanActivity;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        resultTextView = (TextView) findViewById(R.id.tvResult);
     }
 
-    public void startQrScan(View view) {
-//        Intent in = new Intent(MainActivity.this, SimpleScannerActivity.class);
+    public void scanUsingActivity(View view) {
+        scanActivity = new Intent(MainActivity.this, ScanQrUsingActivity.class);
+        startActivity(scanActivity);
+    }
+
+    public void scanUsingFragment(View view) {
+        scanActivity = new Intent(MainActivity.this, ScanQrUsingFragmentActivity.class);
+        startActivity(scanActivity);
+    }
+
+    public void scanDirectly(View view) {
         startActivity(new Intent(getApplicationContext(), SimpleScannerActivity.class));
     }
 }

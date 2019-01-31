@@ -18,7 +18,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SimpleScannerActivity"></activity>
+        <activity android:name=".SimpleScannerActivity" />
+        <activity android:name=".ScanQrUsingActivity" />
+        <activity android:name=".ScanQrUsingFragmentActivity"></activity>
     </application>
 
 </manifest>

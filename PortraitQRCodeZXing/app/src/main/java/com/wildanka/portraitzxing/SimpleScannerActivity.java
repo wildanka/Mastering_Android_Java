@@ -23,9 +23,10 @@ public class SimpleScannerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_simple_scanner);
         mCodeScanner = new CodeScanner(this, findViewById(R.id.scanner));
         mCodeScanner.setDecodeCallback(result -> runOnUiThread(() -> {
-            ScanResultDialog dialog = new ScanResultDialog(this, result);
-            dialog.setOnDismissListener(d -> mCodeScanner.startPreview());
-            dialog.show();
+//            ScanResultDialog dialog = new ScanResultDialog(this, result);
+//            dialog.setOnDismissListener(d -> mCodeScanner.startPreview());
+//            dialog.show();
+
         }));
         mCodeScanner.setErrorCallback(error -> runOnUiThread(
                 () -> Toast.makeText(this, getString(R.string.scanner_error, error), Toast.LENGTH_LONG).show()));

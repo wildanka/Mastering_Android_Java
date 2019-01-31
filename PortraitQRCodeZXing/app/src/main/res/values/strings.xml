@@ -12,4 +12,7 @@
     <string name="copied_to_clipboard">Copied to clipboard</string>
     <string name="indeterminate">Indeterminate</string>
     <string name="draw_background_stroke">Draw background stroke</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
