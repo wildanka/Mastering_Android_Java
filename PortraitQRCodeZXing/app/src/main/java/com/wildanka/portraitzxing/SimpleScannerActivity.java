@@ -1,18 +1,22 @@
 package com.wildanka.portraitzxing;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.budiyev.android.codescanner.CodeScanner;
 
 
 public class SimpleScannerActivity extends AppCompatActivity {
+    private static final String TAG = "SimpleScannerActivity";
     private static final int RC_PERMISSION = 10;
     private CodeScanner mCodeScanner;
     private boolean mPermissionGranted;
@@ -23,6 +27,12 @@ public class SimpleScannerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_simple_scanner);
         mCodeScanner = new CodeScanner(this, findViewById(R.id.scanner));
         mCodeScanner.setDecodeCallback(result -> runOnUiThread(() -> {
+            Log.d(TAG, "SCANNING RESULT: "+result);
+            Intent data = new Intent();
+            data.setData(Uri.parse(String.valueOf(result)));
+            setResult(RESULT_OK, data);
+            //close the activity
+            finish();
 //            ScanResultDialog dialog = new ScanResultDialog(this, result);
 //            dialog.setOnDismissListener(d -> mCodeScanner.startPreview());
 //            dialog.show();
