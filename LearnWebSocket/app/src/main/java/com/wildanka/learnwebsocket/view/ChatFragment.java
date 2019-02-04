@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.github.nkzawa.emitter.Emitter;
+import com.github.nkzawa.socketio.client.Ack;
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
 import com.wildanka.learnwebsocket.R;
@@ -62,7 +63,6 @@ public class ChatFragment extends Fragment {
     };
 
     private Socket socket;
-
     {
         try {
             socket = IO.socket("http://192.168.88.8:3000/");
@@ -122,22 +122,9 @@ public class ChatFragment extends Fragment {
         socket.emit("get data btcidr", "",
                 new Emitter.Listener() {
                     @Override
-                    public void call(final Object... args) {
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                JSONObject data = (JSONObject) args[0];
-                                String message;
-                                try {
-                                    Log.d(TAG, "run: " + data.toString());
-                                    message = data.getString("message").toString();
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                    return;
-                                }
-                                addMessage(message);
-                            }
-                        });
+                    public void call(Object... args) {
+                        Ack ack = (Ack) args[args.length - 1];
+                        ack.call();
                     }
                 }
         );
