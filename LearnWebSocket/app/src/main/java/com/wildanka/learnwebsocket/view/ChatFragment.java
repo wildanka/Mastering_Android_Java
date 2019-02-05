@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.Ack;
@@ -22,6 +23,7 @@ import com.wildanka.learnwebsocket.R;
 import com.wildanka.learnwebsocket.model.Message;
 import com.wildanka.learnwebsocket.view.adapter.MessageAdapter;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -37,6 +39,7 @@ public class ChatFragment extends Fragment {
     private View rootView;
     private RecyclerView rvChatListDisplay;
     private Button btnSend;
+    private TextView tvLastPrice, tvPriceChange, tvLowestPrice, tvHighestPrice, tvTxVolume, tvTxVolumeIDR;
     private EditText etChatInput;
     private List<Message> mMessages = new ArrayList<Message>();
     private MessageAdapter mAdapter;
@@ -63,14 +66,7 @@ public class ChatFragment extends Fragment {
     };
 
     private Socket socket;
-    {
-        try {
-            socket = IO.socket("http://192.168.88.8:3000/");
-        } catch (URISyntaxException e) {
-//            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-    }
+
 
     public ChatFragment() {
         // Required empty public constructor
@@ -80,9 +76,19 @@ public class ChatFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //setting up the connection
+        {
+            try {
+                socket = IO.socket("http://192.168.88.8:5000/");
+            } catch (URISyntaxException e) {
+//            e.printStackTrace();
+                throw new RuntimeException(e);
+            }
+        }
         //make connection with the socket
         socket.connect();
         socket.on("message", handleIncomingMessages);
+//        socket.on("message", handleIncomingMessages);
 //        socket.on("get data btcidr",handleIncomingMessages);
     }
 
@@ -102,7 +108,12 @@ public class ChatFragment extends Fragment {
         rvChatListDisplay = (RecyclerView) view.findViewById(R.id.rv_chat_display);
         rvChatListDisplay.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvChatListDisplay.setAdapter(mAdapter); //create the adapter
-
+        tvLastPrice = (TextView) view.findViewById(R.id.tv_last_price);
+        tvPriceChange  = (TextView) view.findViewById(R.id.tv_price_change);
+        tvLowestPrice  = (TextView) view.findViewById(R.id.tv_low);
+        tvHighestPrice  = (TextView) view.findViewById(R.id.tv_high);
+        tvTxVolume  = (TextView) view.findViewById(R.id.tv_tx_volume);
+        tvTxVolumeIDR  = (TextView) view.findViewById(R.id.tv_tx_volume_in_idr);
         btnSend = (Button) view.findViewById(R.id.btn_send_chat);
         etChatInput = (EditText) view.findViewById(R.id.et_chat_input);
 
@@ -118,16 +129,68 @@ public class ChatFragment extends Fragment {
         String message = etChatInput.getText().toString();
         etChatInput.setText("");
         addMessage(message);
-        socket.emit("message", message);
-        socket.emit("get data btcidr", "",
-                new Emitter.Listener() {
-                    @Override
-                    public void call(Object... args) {
-                        Ack ack = (Ack) args[args.length - 1];
-                        ack.call();
+//        socket.emit("message", message);
+//        socket.emit("ferret", "HELLOW", new Ack() {
+//            @Override
+//            public void call(Object... args) {
+//                String response = (String)args[0];
+//                Log.d(TAG, "ferrel said : "+response);
+//            }
+//        });
+        socket.emit("get data btcidr", "", new Ack() {
+            @Override
+            public void call(Object... args) {
+                JSONObject data = (JSONObject) args[0];
+                try {
+                    String lastPrice = data.getString("last_price");
+                    String priceChange = data.getString("price_change_24h");
+                    int lowestPrice = data.getInt("lowest_price");
+                    int highestPrice = data.getInt("highest_price");
+                    String txVolume = String.valueOf(data.getDouble("tx_volume"));
+                    String txVolumeIDR = String.valueOf(data.getString("tx_volume_in_idr"));
+                    tvLastPrice.setText(lastPrice);
+                    tvPriceChange.setText(priceChange);
+                    tvLowestPrice.setText(String.valueOf(lowestPrice));
+                    tvHighestPrice.setText(String.valueOf(highestPrice));
+                    tvTxVolume.setText(txVolume);
+                    tvTxVolumeIDR.setText(txVolumeIDR);
+
+
+                    JSONArray dataJSONArray = data.getJSONArray("market_activity");
+                    Log.d(TAG, "last price : "+lastPrice);
+                    for(int i=0; i<dataJSONArray.length(); i++) {
+                        JSONObject dataObj = (JSONObject) dataJSONArray.get(i);
+                        String id = dataObj.getString("price");
+                        //Similarly you can extract for other fields.
+                        Log.d(TAG, "m activity- "+i+" = "+lastPrice);
                     }
+
+                    Log.d(TAG, "last price : "+lastPrice);
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-        );
+
+                Log.d(TAG, "get data btcidr said : "+data.toString());
+            }
+        });
+//        socket.emit("get data market", message, "j",
+//                new Ack() {
+//                    @Override
+//                    public void call(Object... args) {
+//                        String response = (String)args[0];
+//                    }
+//                }
+////                new Emitter.Listener() {
+////                    @Override
+////                    public void call(Object... args) {
+////                        Ack ack = (Ack) args[args.length - 1];
+////                        ack.call("data");
+////                        JSONObject data = (JSONObject) args[0];
+////                        Log.d(TAG, "run: " + data.toString());
+////
+////                    }
+////                }
+//        );
     }
 
     private void addMessage(String message) {
