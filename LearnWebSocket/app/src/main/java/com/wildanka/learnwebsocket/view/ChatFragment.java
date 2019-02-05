@@ -65,6 +65,55 @@ public class ChatFragment extends Fragment {
         }
     };
 
+    private Emitter.Listener handleIncomingBTCIDR = new Emitter.Listener() {
+        @Override
+        public void call(final Object... args) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    JSONObject data = (JSONObject) args[0];
+                    try {
+                        String lastPrice = data.getString("last_price");
+                        tvLastPrice.setText(lastPrice);
+                        String priceChange = data.getString("price_change_24h");
+                        tvPriceChange.setText(priceChange);
+                        String lowestPrice = data.getString("lowest_price");
+                        tvLowestPrice.setText(String.valueOf(lowestPrice));
+                        String highestPrice = data.getString("highest_price");
+                        tvHighestPrice.setText(String.valueOf(highestPrice));
+                        String txVolume = data.getString("tx_volume");
+                        tvTxVolume.setText(txVolume);
+                        String txVolumeIDR = data.getString("tx_volume_in_idr");
+                        tvTxVolumeIDR.setText(txVolumeIDR);
+
+                        System.out.println("last price : " + lastPrice);
+                        System.out.println("priceChange : " + priceChange);
+                        System.out.println("lowestPrice : " + lowestPrice);
+                        System.out.println("last highestPrice : " + highestPrice);
+//                            System.out.println("get data btcidr said : "+data.toString());
+                        Log.d(TAG, "last price : " + lastPrice);
+
+
+                        JSONArray dataJSONArray = data.getJSONArray("market_activity");
+                        Log.d(TAG, "last price : " + lastPrice);
+                        for (int i = 0; i < dataJSONArray.length(); i++) {
+                            JSONObject dataObj = (JSONObject) dataJSONArray.get(i);
+                            String id = dataObj.getString("price");
+                            //Similarly you can extract for other fields.
+                            Log.d(TAG, "m activity- " + i + " = " + lastPrice);
+                        }
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    Log.d(TAG, "get data btcidr said : " + data.toString());
+                    System.out.println("get data btcidr said : " + data.toString());
+                }
+            });
+        }
+    };
+
     private Socket socket;
 
 
@@ -79,7 +128,7 @@ public class ChatFragment extends Fragment {
         //setting up the connection
         {
             try {
-                socket = IO.socket("http://192.168.88.8:5000/");
+                socket = IO.socket("http://192.168.88.18:5000/");
             } catch (URISyntaxException e) {
 //            e.printStackTrace();
                 throw new RuntimeException(e);
@@ -89,7 +138,7 @@ public class ChatFragment extends Fragment {
         socket.connect();
         socket.on("message", handleIncomingMessages);
 //        socket.on("message", handleIncomingMessages);
-//        socket.on("get data btcidr",handleIncomingMessages);
+        socket.on("get update data btcidr", handleIncomingBTCIDR);
     }
 
     @Override
@@ -109,11 +158,11 @@ public class ChatFragment extends Fragment {
         rvChatListDisplay.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvChatListDisplay.setAdapter(mAdapter); //create the adapter
         tvLastPrice = (TextView) view.findViewById(R.id.tv_last_price);
-        tvPriceChange  = (TextView) view.findViewById(R.id.tv_price_change);
-        tvLowestPrice  = (TextView) view.findViewById(R.id.tv_low);
-        tvHighestPrice  = (TextView) view.findViewById(R.id.tv_high);
-        tvTxVolume  = (TextView) view.findViewById(R.id.tv_tx_volume);
-        tvTxVolumeIDR  = (TextView) view.findViewById(R.id.tv_tx_volume_in_idr);
+        tvPriceChange = (TextView) view.findViewById(R.id.tv_price_change);
+        tvLowestPrice = (TextView) view.findViewById(R.id.tv_low);
+        tvHighestPrice = (TextView) view.findViewById(R.id.tv_high);
+        tvTxVolume = (TextView) view.findViewById(R.id.tv_tx_volume);
+        tvTxVolumeIDR = (TextView) view.findViewById(R.id.tv_tx_volume_in_idr);
         btnSend = (Button) view.findViewById(R.id.btn_send_chat);
         etChatInput = (EditText) view.findViewById(R.id.et_chat_input);
 
@@ -139,38 +188,51 @@ public class ChatFragment extends Fragment {
 //        });
         socket.emit("get data btcidr", "", new Ack() {
             @Override
-            public void call(Object... args) {
-                JSONObject data = (JSONObject) args[0];
-                try {
-                    String lastPrice = data.getString("last_price");
-                    String priceChange = data.getString("price_change_24h");
-                    int lowestPrice = data.getInt("lowest_price");
-                    int highestPrice = data.getInt("highest_price");
-                    String txVolume = String.valueOf(data.getDouble("tx_volume"));
-                    String txVolumeIDR = String.valueOf(data.getString("tx_volume_in_idr"));
-                    tvLastPrice.setText(lastPrice);
-                    tvPriceChange.setText(priceChange);
-                    tvLowestPrice.setText(String.valueOf(lowestPrice));
-                    tvHighestPrice.setText(String.valueOf(highestPrice));
-                    tvTxVolume.setText(txVolume);
-                    tvTxVolumeIDR.setText(txVolumeIDR);
+            public void call(final Object... args) {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        JSONObject data = (JSONObject) args[0];
+                        try {
+                            String lastPrice = data.getString("last_price");
+                            tvLastPrice.setText(lastPrice);
+                            String priceChange = data.getString("price_change_24h");
+                            tvPriceChange.setText(priceChange);
+                            String lowestPrice = data.getString("lowest_price");
+                            tvLowestPrice.setText(String.valueOf(lowestPrice));
+                            String highestPrice = data.getString("highest_price");
+                            tvHighestPrice.setText(String.valueOf(highestPrice));
+                            String txVolume = data.getString("tx_volume");
+                            tvTxVolume.setText(txVolume);
+                            String txVolumeIDR = data.getString("tx_volume_in_idr");
+                            tvTxVolumeIDR.setText(txVolumeIDR);
+
+                            System.out.println("last price : " + lastPrice);
+                            System.out.println("priceChange : " + priceChange);
+                            System.out.println("lowestPrice : " + lowestPrice);
+                            System.out.println("last highestPrice : " + highestPrice);
+//                            System.out.println("get data btcidr said : "+data.toString());
+                            Log.d(TAG, "last price : " + lastPrice);
 
 
-                    JSONArray dataJSONArray = data.getJSONArray("market_activity");
-                    Log.d(TAG, "last price : "+lastPrice);
-                    for(int i=0; i<dataJSONArray.length(); i++) {
-                        JSONObject dataObj = (JSONObject) dataJSONArray.get(i);
-                        String id = dataObj.getString("price");
-                        //Similarly you can extract for other fields.
-                        Log.d(TAG, "m activity- "+i+" = "+lastPrice);
+                            JSONArray dataJSONArray = data.getJSONArray("market_activity");
+                            Log.d(TAG, "last price : " + lastPrice);
+                            for (int i = 0; i < dataJSONArray.length(); i++) {
+                                JSONObject dataObj = (JSONObject) dataJSONArray.get(i);
+                                String id = dataObj.getString("price");
+                                //Similarly you can extract for other fields.
+                                Log.d(TAG, "m activity- " + i + " = " + lastPrice);
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        Log.d(TAG, "get data btcidr said : " + data.toString());
+                        System.out.println("get data btcidr said : " + data.toString());
+
                     }
-
-                    Log.d(TAG, "last price : "+lastPrice);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                Log.d(TAG, "get data btcidr said : "+data.toString());
+                });
             }
         });
 //        socket.emit("get data market", message, "j",
