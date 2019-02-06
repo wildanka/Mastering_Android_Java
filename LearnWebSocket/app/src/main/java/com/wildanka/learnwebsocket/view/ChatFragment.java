@@ -128,7 +128,7 @@ public class ChatFragment extends Fragment {
         //setting up the connection
         {
             try {
-                socket = IO.socket("http://192.168.88.18:5000/");
+                socket = IO.socket("http://192.168.88.8:5000/");
             } catch (URISyntaxException e) {
 //            e.printStackTrace();
                 throw new RuntimeException(e);
