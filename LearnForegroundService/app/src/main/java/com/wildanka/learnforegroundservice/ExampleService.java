@@ -42,7 +42,7 @@ public class ExampleService extends Service {
 ///        a heavy background task
         //well actually if we want to stop our service automatically (without calling from outside),
         // we can use stopSelf() so the service will stop itself from working on the background
-//        stopSelf();
+        stopSelf();
 
         return START_NOT_STICKY; //not sticky so this service will only create one service if there is a change or modification
     }

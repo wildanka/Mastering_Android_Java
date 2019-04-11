@@ -68,8 +68,8 @@ public class MainActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    Log.d(TAG, "get data btcidr said : " + data.toString());
-                    System.out.println("get data btcidr said : " + data.toString());
+                    Log.d(TAG, "get data btcidr ON said : " + data.toString());
+                    System.out.println("get data btcidr ON said : " + data.toString());
                 }
             });
         }
@@ -148,8 +148,8 @@ public class MainActivity extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        Log.d(TAG, "get data btcidr said : " + data.toString());
-                        System.out.println("get data btcidr said : " + data.toString());
+                        Log.d(TAG, "get data btcidr EMIT said : " + data.toString());
+                        System.out.println("get data btcidr EMIT said : " + data.toString());
 
                     }
                 });
