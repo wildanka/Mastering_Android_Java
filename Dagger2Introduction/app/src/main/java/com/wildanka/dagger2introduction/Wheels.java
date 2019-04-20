@@ -1,14 +1,11 @@
 package com.wildanka.dagger2introduction;
 
-import com.wildanka.dagger2introduction.entity.Rims;
-import com.wildanka.dagger2introduction.entity.Tires;
+import javax.inject.Inject;
 
 public class Wheels {
-    Tires tires;
-    Rims rims;
-
-    public Wheels(Tires tires, Rims rims) {
-        this.tires = tires;
-        this.rims = rims;
+    // TODO 2 :
+    // every object that wanted to be used by dagger should be annotated by @Inject annotation
+    @Inject
+    public Wheels() {
     }
 }

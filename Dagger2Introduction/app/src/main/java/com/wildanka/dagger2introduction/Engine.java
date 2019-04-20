@@ -1,16 +1,11 @@
 package com.wildanka.dagger2introduction;
 
-import com.wildanka.dagger2introduction.entity.Block;
-import com.wildanka.dagger2introduction.entity.Cylinders;
+import javax.inject.Inject;
 
 public class Engine {
-    Cylinders cylinders;
-    Block block;
-    SparkPlugs sparkPlugs;
-
-    public Engine(Cylinders cylinders, Block block, SparkPlugs sparkPlugs) {
-        this.cylinders = cylinders;
-        this.block = block;
-        this.sparkPlugs = sparkPlugs;
+    // TODO 2 :
+    // every object that wanted to be used by dagger should be annotated by @Inject annotation
+    @Inject
+    public Engine() {
     }
 }
