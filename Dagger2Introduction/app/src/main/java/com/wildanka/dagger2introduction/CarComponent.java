@@ -23,7 +23,7 @@ import dagger.Component;
  * so the component create and stores our object and then provides them to us, you can also call it the injector.
  * there are two ways which the component can provide our dependencies
  * 1. it can either injected into the member variable of our activity directly (this is what we're gonna look at the next example
- * 2. the other way is te so-called permission method, which is just a simple getter method
+ * 2. the other way is te so-called provision method, which is just a simple getter method
  *
  *
  * */
