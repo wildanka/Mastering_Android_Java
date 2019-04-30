@@ -23,7 +23,6 @@ public class ExampleIntentService extends IntentService {
         setIntentRedelivery(true); //equivalent to START_STICKY
     }
 
-
     @Override
     public void onCreate() {
         super.onCreate();
