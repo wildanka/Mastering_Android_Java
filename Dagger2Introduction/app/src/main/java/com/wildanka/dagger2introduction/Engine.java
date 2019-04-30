@@ -4,7 +4,8 @@ import javax.inject.Inject;
 
 public class Engine {
     // TODO 2 :
-    // every object that wanted to be used by dagger should be annotated by @Inject annotation
+    /**
+     * this is why we also annotated the consstructors of Engine & creates with @Inject, but by annotated this */
     @Inject
     public Engine() {
     }
