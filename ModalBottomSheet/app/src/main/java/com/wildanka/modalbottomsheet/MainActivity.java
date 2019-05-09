@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity implements ExampleBottomShee
             @Override
             public void onClick(View v) {
                 ExampleBottomSheetDialog bottomSheetDialog = new ExampleBottomSheetDialog();
+
                 bottomSheetDialog.show(getSupportFragmentManager(), "");
             }
         });
@@ -27,6 +28,5 @@ public class MainActivity extends AppCompatActivity implements ExampleBottomShee
     @Override
     public void onButtonClicked(String text) {
         tvResult.setText(text);
-
     }
 }
