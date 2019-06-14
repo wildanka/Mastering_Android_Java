@@ -1,12 +1,11 @@
 package com.wildanka.df_vp_f;
 
+import android.content.Context;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
@@ -14,39 +13,26 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Button;
 
-import com.wildanka.df_vp_f.adapter.AdapterFragmentPager;
+import com.wildanka.df_vp_f.interactor.IDialogFragmentToVPFragment;
 
 public class DialogExample extends DialogFragment {
+    private static final String TAG = "DialogExample";
+    public IDialogFragmentToVPFragment iDialogFragmentToVPFragment;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.dialog_fragment,container,false);
-        TabLayout tabLayout = rootView.findViewById(R.id.tl);
-        ViewPager viewPager = rootView.findViewById(R.id.vp);
+        Button btnTrigger = rootView.findViewById(R.id.btn_save_change_config_dialog);
 
-        //create the adapter
-        AdapterFragmentPager adapter = new AdapterFragmentPager(getChildFragmentManager());
-
-        Bundle marketEnv = new Bundle();
-        marketEnv.putString("firstCurrency", "btc");
-        marketEnv.putString("secondCurrency", "idr");
-        marketEnv.putString("lastPrice", "68000000");
-        marketEnv.putString("selectedPrice", "68000000");
-
-        //instance the fragment
-        Content1 bidFragment = new Content1();
-        bidFragment.setArguments(marketEnv);
-        Content2 askFragment = new Content2();
-        askFragment.setArguments(marketEnv);
-
-        //adding fragment
-        adapter.addFragment(bidFragment, "BID");
-        adapter.addFragment(askFragment, "ASK");
-
-        viewPager.setAdapter(adapter);
-        tabLayout.setupWithViewPager(viewPager);
+        btnTrigger.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                iDialogFragmentToVPFragment.updateSecondaryQty(true);
+            }
+        });
         return rootView;
     }
 
@@ -66,4 +52,13 @@ public class DialogExample extends DialogFragment {
         window.setGravity(Gravity.CENTER);
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try{
+            iDialogFragmentToVPFragment = (IDialogFragmentToVPFragment) getActivity();
+        }catch(ClassCastException e){
+            Log.e(TAG,"onAttach: ClassCastException: "+e.getMessage());
+        }
+    }
 }
