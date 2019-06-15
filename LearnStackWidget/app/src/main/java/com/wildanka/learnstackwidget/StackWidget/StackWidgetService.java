@@ -1,4 +1,4 @@
-package com.wildanka.learnstackwidget;
+package com.wildanka.learnstackwidget.StackWidget;
 
 import android.content.Intent;
 import android.widget.RemoteViewsService;

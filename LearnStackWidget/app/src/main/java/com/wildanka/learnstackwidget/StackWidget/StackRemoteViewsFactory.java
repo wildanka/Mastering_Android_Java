@@ -1,4 +1,4 @@
-package com.wildanka.learnstackwidget;
+package com.wildanka.learnstackwidget.StackWidget;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,6 +7,8 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
+
+import com.wildanka.learnstackwidget.R;
 
 import java.util.ArrayList;
 import java.util.List;

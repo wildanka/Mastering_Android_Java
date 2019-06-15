@@ -1,4 +1,4 @@
-package com.wildanka.learnstackwidget;
+package com.wildanka.learnstackwidget.StackWidget;
 
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.widget.RemoteViews;
 import android.widget.Toast;
+
+import com.wildanka.learnstackwidget.R;
 
 /**
  * Implementation of App Widget functionality.
