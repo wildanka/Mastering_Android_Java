@@ -42,6 +42,10 @@
         <service
             android:name=".StackWidget.StackWidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
+        <service android:name=".UpdateWidgetService"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"/>
     </application>
 
 </manifest>
