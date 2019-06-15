@@ -104,6 +104,23 @@ public class AlarmReceiver extends BroadcastReceiver {
             alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
         }
         Toast.makeText(context, "Repeating alarm set up", Toast.LENGTH_SHORT).show();
+        Log.e(TAG, "setRepeatingAlarm: is called" );
+    }
+
+    public void cancelAlarm(Context context, String type) {
+        Log.e(TAG, "cancelAlarm: is called" );
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(context, AlarmReceiver.class);
+        int requestCode = type.equalsIgnoreCase(TYPE_ONE_TIME) ? ID_ONETIME : ID_REPEATING;
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, requestCode, intent, 0);
+        pendingIntent.cancel();
+
+        if (alarmManager != null) {
+            alarmManager.cancel(pendingIntent);
+        }
+
+        Toast.makeText(context, type+" cancelled", Toast.LENGTH_SHORT).show();
+
     }
 
     public boolean isDateInvalid(String date, String format) {

@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ImageButton  btnRepeatingTime;
     private Button btnSetRepeating;
 
+    private Button btnCancelRepeating;
     private AlarmReceiver alarmReceiver;
 
     private final String DATE_PICKER_TAG = "DatePicker";
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //one time  input
         tvOnceDate = findViewById(R.id.tv_once_date);
         btnOnceDate = findViewById(R.id.btn_once_date);
         tvOnceTime = findViewById(R.id.tv_once_time);
@@ -44,17 +46,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         edtOnceMessage = findViewById(R.id.edt_once_message);
         btnSetOnce = findViewById(R.id.btn_set_once_alarm);
 
+        //repeating input
         tvRepeatingTime = findViewById(R.id.tv_repeating_time);
         btnRepeatingTime = findViewById(R.id.btn_repeating_time);
         edtRepeatingMessage = findViewById(R.id.edt_repeating_message);
         btnSetRepeating = findViewById(R.id.btn_set_repeating_alarm);
+        btnCancelRepeating = findViewById(R.id.btn_cancel_repeating_alarm);
 
+        //datepicker and timepicker
         btnOnceDate.setOnClickListener(this);
         btnOnceTime.setOnClickListener(this);
         btnSetOnce.setOnClickListener(this);
 
+        //btn post to alarmReceiver button
         btnRepeatingTime.setOnClickListener(this);
         btnSetRepeating.setOnClickListener(this);
+        btnCancelRepeating.setOnClickListener(this);
+
         alarmReceiver = new AlarmReceiver();
     }
 
@@ -87,6 +95,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 String repeatMessage = edtRepeatingMessage.getText().toString();
                 alarmReceiver.setRepeatingAlarm(this, AlarmReceiver.TYPE_REPEATING,
                         repeatTime, repeatMessage);
+                break;
+            case R.id.btn_cancel_repeating_alarm:
+                alarmReceiver.cancelAlarm(this, AlarmReceiver.TYPE_REPEATING);
                 break;
         }
     }
