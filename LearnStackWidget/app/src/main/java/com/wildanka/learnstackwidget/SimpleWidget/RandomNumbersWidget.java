@@ -14,11 +14,11 @@ public class RandomNumbersWidget extends AppWidgetProvider {
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
-
-        CharSequence widgetText = context.getString(R.string.appwidget_text);
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.random_numbers_widget);
-        views.setTextViewText(R.id.appwidget_text, widgetText);
+
+        String lastUpdate = "Random: " + NumberGenerator.Generate(100);
+        views.setTextViewText(R.id.appwidget_text, lastUpdate);
 
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);
@@ -42,4 +42,3 @@ public class RandomNumbersWidget extends AppWidgetProvider {
         // Enter relevant functionality for when the last widget is disabled
     }
 }
-
