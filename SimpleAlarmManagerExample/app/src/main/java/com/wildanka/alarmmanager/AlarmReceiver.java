@@ -43,9 +43,11 @@ public class AlarmReceiver extends BroadcastReceiver {
         String message = intent.getStringExtra(EXTRA_MESSAGE);
 
         String title = type.equalsIgnoreCase(TYPE_ONE_TIME) ? TYPE_ONE_TIME : TYPE_REPEATING;
-        int notifyId = type.equalsIgnoreCase(TYPE_ONE_TIME) ? ID_ONETIME : ID_REPEATING;
+        int notifId = type.equalsIgnoreCase(TYPE_ONE_TIME) ? ID_ONETIME : ID_REPEATING;
 
         showToast(context, title, message);
+        //Jika Anda ingin menampilkan dengan Notif anda bisa menghilangkan komentar pada baris dibawah ini.
+        showAlarmNotification(context, title, message, notifId);
     }
 
     private void showToast(Context context, String title, String message) {
@@ -53,7 +55,7 @@ public class AlarmReceiver extends BroadcastReceiver {
     }
 
     //set the onetime alarm
-    private void setOneTimeAlarm(Context context, String type, String date, String time, String message) {
+    public void setOneTimeAlarm(Context context, String type, String date, String time, String message) {
         String DATE_FORMAT = "yyyy-MM-dd";
         String TIME_FORMAT = "HH:mm";
         if (isDateInvalid(date, DATE_FORMAT) || isDateInvalid(time, TIME_FORMAT)) return;
@@ -65,7 +67,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         Log.e("ONE TIME", date + " " + time);
         String dateArray[] = date.split("-");
-        String timeArray[] = date.split(":");
+        String timeArray[] = time.split(":");
 
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.YEAR, Integer.parseInt(dateArray[0]));
