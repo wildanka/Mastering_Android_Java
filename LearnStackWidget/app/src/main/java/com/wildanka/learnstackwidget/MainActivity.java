@@ -13,6 +13,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.wildanka.learnstackwidget.service.UpdateWidgetService;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     private Button btnStart;
     private Button btnStop;

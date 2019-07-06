@@ -1,4 +1,4 @@
-package com.wildanka.learnstackwidget;
+package com.wildanka.learnstackwidget.service;
 
 import android.annotation.TargetApi;
 import android.app.job.JobParameters;
@@ -8,6 +8,7 @@ import android.content.ComponentName;
 import android.os.Build;
 import android.widget.RemoteViews;
 
+import com.wildanka.learnstackwidget.R;
 import com.wildanka.learnstackwidget.SimpleWidget.NumberGenerator;
 import com.wildanka.learnstackwidget.SimpleWidget.RandomNumbersWidget;
 
