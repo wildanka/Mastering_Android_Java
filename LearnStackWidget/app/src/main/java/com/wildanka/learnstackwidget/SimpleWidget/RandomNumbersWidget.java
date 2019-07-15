@@ -5,9 +5,14 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.widget.ImageView;
 import android.widget.RemoteViews;
 
+import com.squareup.picasso.Picasso;
 import com.wildanka.learnstackwidget.R;
+
+import java.io.IOException;
 
 /**
  * Implementation of App Widget functionality.
@@ -39,6 +44,13 @@ public class RandomNumbersWidget extends AppWidgetProvider {
             int appWidgetId = intent.getIntExtra(WIDGET_ID_EXTRA, 0);
             views.setTextViewText(R.id.appwidget_text, lastUpdate);
             appWidgetManager.updateAppWidget(appWidgetId, views);
+            try {
+                Bitmap ivBitmap = Picasso.get().load("https://image.tmdb.org/t/p/w92/b9uYMMbm87IBFOq59pppvkkkgNg.jpg").get();
+                views.setImageViewBitmap(R.id.iv_random_number_widget, ivBitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
         }
     }
 
