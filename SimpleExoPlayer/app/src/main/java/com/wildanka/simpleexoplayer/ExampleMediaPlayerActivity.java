@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.source.ConcatenatingMediaSource;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.MergingMediaSource;
@@ -43,6 +44,26 @@ public class ExampleMediaPlayerActivity extends AppCompatActivity {
 
         //plays the video and subtitle in sync
 //        MediaSource mergedSource = new MergingMediaSource(videoSource,subtitleSource);
+
+        /**
+         * we can also do a concatenating media source. So for example,
+         * when user play firstMusic then swipe to the next playlist, he will have some buffer time to load the secondMedia (music)
+         * we don't want users to wait, so this is what we do.
+         *
+         */
+//        MediaSource firstSource = new ExtractorMediaSource(videoUri, ...);
+//        MediaSource secondSource = ... ; //basically can be from different Source you can play music after video or else.
+
+        //Plays the first video, then the second video
+//        ConcatenatingMediaSource concatenatingMediaSource =
+//        new ConcatenatingMediaSource(
+//          firstSource,
+//          secondSource,
+//          new MergingMediaSource(videoSource,subtitleSource)); // even the concated mediaSource can be MergingMediaSource
+
+        //to see some Use Case watch this (I/O 17) : https://www.youtube.com/watch?v=jAZn-J1I8Eg&list=PLWz5rJ2EKKc-odHd6XEaf7ykfsosYyCKp&index=12&t=738s
+        //to see how to build things with ExoPlayer (I/O 18) : https://www.youtube.com/watch?v=svdq1BWl4r8
+
         player.prepare(mediaSource);
         player.setPlayWhenReady(true); //tell the player as the buffering is complete, then the playback should start
 
