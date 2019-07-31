@@ -11,10 +11,7 @@ import android.widget.Button;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private Button btnNext, btnPrev;
     private MainActivityViewModel viewModel;
-    private ChooseNextFragmentListener chooseNextFragmentListener;
-    public void setListener(ChooseNextFragmentListener chooseNextFragmentListener) {
-        this.chooseNextFragmentListener = chooseNextFragmentListener;
-    }
+    private ChooseNextFragmentListener chooseNextFragmentListener; // we just net a reference to the interface (in activity, it works but not for fragment okay)
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
