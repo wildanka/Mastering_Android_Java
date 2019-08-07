@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">SimpleExoPlayer</string>
     <string name="title_activity_media_player">MediaPlayer</string>
+    <string name="title_activity_video_player">VideoPlayerActivity</string>
 </resources>

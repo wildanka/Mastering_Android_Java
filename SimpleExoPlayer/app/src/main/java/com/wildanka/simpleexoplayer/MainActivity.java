@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
         Button btnExo = findViewById(R.id.btn_go_to_exo);
 
         btnExo.setOnClickListener(v -> {
-            startActivity(new Intent(MainActivity.this, ExampleMediaPlayerActivity.class));
+            startActivity(new Intent(MainActivity.this, VideoPlayerActivity.class));
         });
     }
 }

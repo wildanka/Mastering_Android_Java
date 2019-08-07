@@ -33,7 +33,7 @@ public class ExampleMediaPlayerActivity extends AppCompatActivity {
         //tell exo player what we want to play, in ExoPlayer everything you can play is MediaSource
         Uri videoUri = Uri.parse("http://sadsad/asdasd");
         //creating an ExtractorMediaSource (which support mp4,mp3 and matroska, and so on
-        MediaSource mediaSource = new ExtractorMediaSource(videoUri);
+//        MediaSource mediaSource = new ExtractorMediaSource(videoUri);
 //        MediaSource mediaSource = new DashMediaSource(videoUri); // (specification for streaming which allows for adaptation between qualities to handle varying network conditions)
 //        MediaSource mediaSource = new HlsMediaSource(videoUri); // (supporting http live streaming for streaming)
 //        MediaSource mediaSource = new SsMediaSource(videoUri); // (supporting smoothstreaming for streaming)
@@ -64,7 +64,7 @@ public class ExampleMediaPlayerActivity extends AppCompatActivity {
         //to see some Use Case watch this (I/O 17) : https://www.youtube.com/watch?v=jAZn-J1I8Eg&list=PLWz5rJ2EKKc-odHd6XEaf7ykfsosYyCKp&index=12&t=738s
         //to see how to build things with ExoPlayer (I/O 18) : https://www.youtube.com/watch?v=svdq1BWl4r8
 
-        player.prepare(mediaSource);
+//        player.prepare(mediaSource);
         player.setPlayWhenReady(true); //tell the player as the buffering is complete, then the playback should start
 
 
