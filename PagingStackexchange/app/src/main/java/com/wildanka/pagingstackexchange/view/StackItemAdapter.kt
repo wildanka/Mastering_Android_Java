@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.wildanka.pagingstackexchange.R
-import com.wildanka.pagingstackexchange.model.Items
+import com.wildanka.pagingstackexchange.model.entity.Items
 
 class StackItemAdapter(private val mContext : Context): PagedListAdapter<Items, StackItemAdapter.ItemViewHolder>(ItemsDiffCallback) { // super(ItemsDiffCallback)
 

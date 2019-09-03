@@ -3,10 +3,10 @@ package com.wildanka.pagingstackexchange.repo
 import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import com.wildanka.pagingstackexchange.model.ApiClient
-import com.wildanka.pagingstackexchange.model.Items
-import com.wildanka.pagingstackexchange.model.StackApiResponse
-import com.wildanka.pagingstackexchange.model.StackExchangeApi
+import com.wildanka.pagingstackexchange.model.network.ApiClient
+import com.wildanka.pagingstackexchange.model.entity.Items
+import com.wildanka.pagingstackexchange.model.entity.StackApiResponse
+import com.wildanka.pagingstackexchange.model.network.StackExchangeApi
 import retrofit2.Call
 import retrofit2.Response
 
@@ -15,12 +15,6 @@ class NetworkRepo {
 
     companion object {
         val instance = NetworkRepo
-    }
-
-    private val stackExchangeApi: StackExchangeApi
-
-    init {
-        stackExchangeApi = ApiClient.createService(StackExchangeApi::class.java)
     }
 
     fun fetchStackAnswer(page: Int?, pageSize: Int?, site: String = "stackoverflow"): MutableLiveData<List<Items?>> {

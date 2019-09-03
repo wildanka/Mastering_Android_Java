@@ -1,6 +1,6 @@
-package com.wildanka.pagingstackexchange.model
+package com.wildanka.pagingstackexchange.model.network
 
-import com.wildanka.pagingstackexchange.model.StackApiResponse
+import com.wildanka.pagingstackexchange.model.entity.StackApiResponse
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -22,6 +22,13 @@ interface StackExchangeApi {
 
     @GET("answers")
     fun getAnswers(
+        @Query("page") page: Int?,
+        @Query("pagesize") pageSize: Int?,
+        @Query("site") site: String?
+    ): Call<StackApiResponse>
+
+    @GET("answers")
+    fun getAnswersLiveData(
         @Query("page") page: Int?,
         @Query("pagesize") pageSize: Int?,
         @Query("site") site: String?

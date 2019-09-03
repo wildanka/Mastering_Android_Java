@@ -5,8 +5,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.wildanka.pagingstackexchange.model.Items
-import com.wildanka.pagingstackexchange.model.StackApiResponse
+import com.wildanka.pagingstackexchange.model.entity.Items
 
 class MainActivity : AppCompatActivity() {
 

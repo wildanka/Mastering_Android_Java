@@ -3,7 +3,7 @@ package com.wildanka.pagingstackexchange
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.wildanka.pagingstackexchange.model.Items
+import com.wildanka.pagingstackexchange.model.entity.Items
 import com.wildanka.pagingstackexchange.repo.NetworkRepo
 
 class MainViewModel() : ViewModel() {
