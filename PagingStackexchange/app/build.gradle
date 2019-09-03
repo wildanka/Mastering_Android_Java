@@ -27,6 +27,9 @@ dependencies {
     def lifecycle_version = "2.0.0"
     def retrofit_version = "2.6.1"
     def glide_version = "4.9.0"
+    def rx_java2_version= "2.2.0"
+    def rx_java2_rxandroid_version= "2.0.2"
+    def rx_java2_rxkotlin_version= "2.2.0"
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -41,6 +44,14 @@ dependencies {
     //retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
+    implementation 'com.google.code.gson:gson:2.8.5'
+    //region rx
+    implementation "io.reactivex.rxjava2:rxandroid:$rx_java2_rxandroid_version"
+    implementation "io.reactivex.rxjava2:rxjava:$rx_java2_version"
+    implementation "io.reactivex.rxjava2:rxkotlin:$rx_java2_rxkotlin_version"
+    implementation 'com.jakewharton.rxbinding:rxbinding:0.3.0'
+    //endregion rx
     //glide
     implementation "com.github.bumptech.glide:glide:$glide_version"
 
