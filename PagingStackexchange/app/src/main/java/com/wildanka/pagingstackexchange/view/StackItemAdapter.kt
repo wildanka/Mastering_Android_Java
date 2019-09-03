@@ -24,7 +24,7 @@ class StackItemAdapter(private val mContext : Context): PagedListAdapter<Items, 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val item : Items? = getItem(position)
 
-        holder.bind(item)
+        holder.bind(item, position)
 
     }
 
@@ -43,8 +43,9 @@ class StackItemAdapter(private val mContext : Context): PagedListAdapter<Items, 
     inner class ItemViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         private val ivIcon = itemView.findViewById<ImageView>(R.id.iv_icon);
         private val tvUsername = itemView.findViewById<TextView>(R.id.tv_username)
+        private val tvNumber= itemView.findViewById<TextView>(R.id.tv_number)
 
-        fun bind(item: Items?){
+        fun bind(item: Items?, position: Int?){
             if (item != null){
                 Glide.with(mContext)
                     .load(item.owner?.profileImage)
@@ -52,7 +53,7 @@ class StackItemAdapter(private val mContext : Context): PagedListAdapter<Items, 
             }
 
             tvUsername.text = item?.owner?.displayName
-
+            tvNumber.text = position.toString()
             Log.e("StackItemAdapt", item?.owner?.profileImage+" | "+item?.owner?.displayName)
         }
     }
