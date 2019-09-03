@@ -40,18 +40,5 @@ object ApiClient {
         val retrofit = builder.client(client).build()
         return retrofit.create(serviceClass)
     }
-    private fun addRequestHeaders(authToken: String?) {
-        httpClient.interceptors().add(Interceptor { chain ->
-            val original = chain.request()
-
-            // Request customization: add request headers
-            val requestBuilder = original.newBuilder().header("Authorization", authToken).method(original.method(), original.body())
-
-            val request = requestBuilder.build()
-            chain.proceed(request)
-        })
-    }
-
-
 
 }
