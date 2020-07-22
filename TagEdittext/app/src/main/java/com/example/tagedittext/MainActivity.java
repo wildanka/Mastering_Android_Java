@@ -1,6 +1,7 @@
 package com.example.tagedittext;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.graphics.Bitmap;
@@ -29,61 +30,39 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     FlexboxLayout flexboxLayout;
-    FlexboxLayout flexboxLayout2;
-    RecyclerView rvTags;
-    EditText editText, et2;
-    Button btn, btn2;
-    RvAdapter adapter;
+    ConstraintLayout constraintLayout;
+    EditText initialEditText;
+    Button btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        constraintLayout = findViewById(R.id.constraintLayout);
         flexboxLayout = findViewById(R.id.flexboxlayout);
-        flexboxLayout2 = findViewById(R.id.flexboxlayout2);
-        editText = findViewById(R.id.editText);
-        et2 = findViewById(R.id.et2);
+        initialEditText = findViewById(R.id.editText);
         btn = findViewById(R.id.button);
-        btn2 = findViewById(R.id.button2);
-        rvTags = findViewById(R.id.rv_tags);
-
-        adapter = new RvAdapter();
-        FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(this, FlexDirection.ROW, FlexWrap.WRAP);
-        rvTags.setLayoutManager(layoutManager);
-        rvTags.setAdapter(adapter);
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!editText.getText().toString().isEmpty()) {
-                    addSpecialist(editText.getText().toString());
+                if (!initialEditText.getText().toString().isEmpty()) {
+                    addSpecialist(initialEditText.getText().toString());
+                    initialEditText.setText("");
                 } else {
                     Toast.makeText(MainActivity.this, "tag tidak boleh kosong", Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
-        btn2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!et2.getText().toString().isEmpty()) {
-                    addToRecyclerView(et2.getText().toString());
-                } else {
-                    Toast.makeText(MainActivity.this, "tag tidak boleh kosong", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
-    }
-
-    private void addToRecyclerView(String tag) {
-        adapter.addTagSpecialist(tag);
     }
 
     private void addSpecialist(final String tagSpecialist) {
-//        flexboxLayout.removeAllViews();
+        if(initialEditText != null){
+            flexboxLayout.removeView(initialEditText);
+        }
 
-        TextView tvSpecialist = new TextView(this);
+        final TextView tvSpecialist = new TextView(this);
         tvSpecialist.setText(tagSpecialist);
         tvSpecialist.setTextSize(TypedValue.COMPLEX_UNIT_SP, Float.parseFloat("16"));
         tvSpecialist.setBackground(getResources().getDrawable(R.drawable.bordered_rectangle_rounded_corners));
@@ -95,12 +74,29 @@ public class MainActivity extends AppCompatActivity {
         lp.setMargins(10, 10, 10, 10);
         tvSpecialist.setLayoutParams(lp);
         flexboxLayout.addView(tvSpecialist);
+        //hitung selisih view
+        int emptySpace = flexboxLayout.getRight() - tvSpecialist.getRight();
+        FlexboxLayout.LayoutParams lpEditText;
+        if (emptySpace < 75){
+            lpEditText = new FlexboxLayout.LayoutParams(FlexboxLayout.LayoutParams.WRAP_CONTENT, FlexboxLayout.LayoutParams.FILL_PARENT);
+        }else{
+            lpEditText = new FlexboxLayout.LayoutParams(emptySpace, FlexboxLayout.LayoutParams.FILL_PARENT);
+        }
+        if (initialEditText == null){
+            initialEditText = new EditText(this);
+            initialEditText.setLayoutParams(lpEditText);
+        }
+        flexboxLayout.addView(initialEditText);
 
         tvSpecialist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                flexboxLayout.removeView(tvSpecialist);
                 Toast.makeText(MainActivity.this, tagSpecialist, Toast.LENGTH_SHORT).show();
             }
         });
+
+        //add the edittext at the end of flexboxLayout
+        final EditText etNew = new EditText(this);
     }
 }
