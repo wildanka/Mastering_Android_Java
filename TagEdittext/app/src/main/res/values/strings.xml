@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Tag Edittext</string>
+    <string name="string_show_flex">Show Flex</string>
+    <string name="string_enter_item">Enter Speciallist</string>
+</resources>
